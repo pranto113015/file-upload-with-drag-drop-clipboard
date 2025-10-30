@@ -1,0 +1,35 @@
+body{
+    background-color: #1e1f25;
+    color: #eee;
+    font-family: "roboto", sans-serif;
+    padding: 40px;
+}
+
+
+.upload-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.file-card, .add-card{
+    background-color: #2f3036;
+    border-radius: 10px;
+  height: 180px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+    text-align: center;
+    transition: background 0.2s ease;
+}
+
+.file-card:hover {background: #3a3b41;}
+
+
+.add-card{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    color: #777;
+}
