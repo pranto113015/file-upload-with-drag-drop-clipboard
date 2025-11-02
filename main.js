@@ -1,26 +1,27 @@
+// get elements selected
 const grid = document.getElementById("uploadGrid");
 const addBtn = document.getElementById("addBtn");
 const fileInput = document.getElementById("fileInput");
 
 // for + button click
-addBtn.addEventListener("click", () => {
-  fileInput.click();
-});
+addBtn.addEventListener("click", () => fileInput.click());
 
-// handle section
+// handle section and preview for file input
 fileInput.addEventListener("change", (event) => {
   handleFiles(event.target.files);
   fileInput.value = "";
 });
 
 // drag and drop functionality
-grid.addEventListener("dragover", (event) => preventDefaults());
+grid.addEventListener("dragover", preventDefaults);
+grid.addEventListener("dragenter", preventDefaults);
+grid.addEventListener("dragleave", preventDefaults);
 grid.addEventListener("drop", (event) => {
-  event.preventDefault();
+  preventDefaults(event);
   handleFiles(event.dataTransfer.files);
 });
 
-// past support funcitionality
+// paste file support functionality
 document.addEventListener("paste", (event) => {
   const files = [];
   for (let items of event.clipboardData.items) {
@@ -53,7 +54,8 @@ function createCard(file) {
     reader.readAsDataURL(file);
   } else {
     preview = document.createElement("section");
-    preview.className ='d-flex justify-content-left align-items-start h-100 text-secondary fs-1';
+    preview.className =
+      "d-flex justify-content-left align-items-start h-100 text-secondary fs-1";
     preview.innerHTML = '<i class="bi bi-file-earmark p-2"></i>';
   }
 
@@ -64,16 +66,21 @@ function createCard(file) {
 
   card.appendChild(preview);
   card.appendChild(removeBtn);
-  card.appendChild(preview);
-  card.appendChild(removeBtn);
   card.appendChild(info);
-
+  
   grid.insertBefore(card, addBtn);
-
 }
+
+
+
 function formatBytes(bytes) {
   const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
   if (bytes === 0) return "0 Bytes";
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return parseFloat((bytes / Math.pow(1024, i)).toFixed(2)) + " " + sizes[i];
+}
+
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
 }
